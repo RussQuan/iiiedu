@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title of the document</title>
+    <script src="/static/js/jquery-3.2.1.js"></script>
+    <script src="/static/js/semantic.js"></script>
+    <link href="/static/css/semantic.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+
+
+</head>
+
+<body>
+
+<div class="ui left sidebar inverted vertical  uncover menu">
+    <a class="item" href="/">
+        <b style="font-size: 18px">控制台</b>
+    </a>
+
+    <a class="item" href="#">
+        <b>臺灣銀行牌告匯率</b>
+    </a>
+    <a class="item" href="#">
+        <b>圖表</b>
+    </a>
+
+</div>
+
+<div class="pusher">
+    <div class="ui inverted segment">
+        <div class="ui inverted secondary menu">
+            <a class="active item" onclick="side()">
+                Menu <i class="sidebar icon"></i>
+            </a>
+            <b class="item">臺灣銀行牌告匯率 </b>
+        </div>
+    </div>
+
+    <div class="ui text container segment ">
+
+        <h1> 圖表</h1>
+        <div class="ui two column grid">
+            <div class="column">
+                <div class="ui red segment">
+                    <p>今日最高:30.1</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui blue segment">
+                    <p>今日最低:29.03</p>
+                </div>
+            </div>
+        </div>
+
+        <h2>highchart</h2>
+        <div id="container"></div>
+
+    </div>
+</div>
+<script>
+    $.getJSON('http://192.168.8.22:2215/rateApp/index1_json/', function (data) {
+        // create the chart
+        $('#container').highcharts('StockChart', {
+            title: {
+                text: 'AAPL stock price by minute'
+            },
+
+            subtitle: {
+                text: 'Using ordinal X axis'
+            },
+
+            xAxis: {
+                gapGridLineWidth: 0
+            },
+
+            rangeSelector: {
+                buttons: [{
+                    type: 'hour',
+                    count: 1,
+                    text: '1h'
+                }, {
+                    type: 'day',
+                    count: 1,
+                    text: '1D'
+                }, {
+                    type: 'all',
+                    count: 1,
+                    text: 'All'
+                }],
+                selected: 1,
+                inputEnabled: false
+            },
+
+            series: [{
+                name: 'AAPL',
+                type: 'area',
+                data: data,
+                gapSize: 5,
+                tooltip: {
+                    valueDecimals: 2
+                },
+                fillColor: {
+                    linearGradient: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, Highcharts.getOptions().colors[0]],
+                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                    ]
+                },
+                threshold: null
+            }]
+        });
+    });
+
+
+</script>
+
+
+</body>
+</html>

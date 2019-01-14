@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title of the document</title>
+    <script src="/static/js/jquery-3.2.1.js"></script>
+    <script src="/static/js/semantic.js"></script>
+    <link href="/static/css/semantic.css" rel="stylesheet">
+    <link href="/static/css/rate.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+<div class="ui left sidebar inverted vertical menu uncover visible">
+    <b class="item" href="#">
+        <b style="font-size: 18px">控制台</b>
+    </b>
+
+    <a class="item" href="#">
+        <b>圖表</b>
+    </a>
+    <a class="item" href="#">
+        <b>課程</b>
+    </a>
+
+</div>
+
+<div class="pusher ">
+
+    <div class="ui inverted segment">
+        <div class="ui inverted secondary menu">
+            <a class="active item" onclick="side()">
+                Menu <i class="sidebar icon"></i>
+            </a>
+            <b class="item"><a href="#1">十大認證 </a> </b>
+
+            <b class="item"><a href="#2">十大語言 </a> </b>
+            <b class="item"><a href="#3">十大課程 </a> </b>
+        </div>
+    </div>
+
+    <div class="ui  grey inverted container">
+
+        <div class="ui equal width grid">
+
+            <div class="column">
+                <div class="ui blue segment">
+                    <div class="value">
+                        720
+                    </div>
+                    <div class="label">課程總數</div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui blue segment ">
+                    <div class="large value">
+                        4
+                    </div>
+                    <div class="label">類別</div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui blue segment  ">
+                    <div class="value">
+                        16
+                    </div>
+                    <div class="label">標籤</div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <h3 class="ui red inverted header" id="1">10大認證課程 - 月份分布</h3>
+        <img class="ui image" src="https://i.imgur.com/3TbzsaG.png">
+
+         <h3 class="ui red inverted header" id="2">10大認證課程 - 月份分布</h3>
+        <img class="ui image" src="https://i.imgur.com/3TbzsaG.png">
+
+        <h3 class="ui red inverted header" id="3">10大認證課程 - 月份分布</h3>
+        <img class="ui image" src="https://i.imgur.com/3TbzsaG.png">
+
+    </div>
+
+
+</div>
+
+
+<script>
+    $('.ui.sidebar').sidebar({dimPage: false, closable: false});
+
+    function side() {
+        $('.ui.sidebar').sidebar('toggle');
+    }
+
+    $(document).ready(
+        side()
+    )
+</script>
+
+
+</body>

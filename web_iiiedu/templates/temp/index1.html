@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title of the document</title>
+    <script src="/static/js/jquery-3.2.1.js"></script>
+    <script src="/static/js/semantic.js"></script>
+    <link href="/static/css/semantic.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+
+
+</head>
+
+<body>
+
+<div class="ui left sidebar inverted vertical  uncover menu">
+    <a class="item" href="/">
+        <b style="font-size: 18px">控制台</b>
+    </a>
+
+    <a class="item" href="#">
+        <b>臺灣銀行牌告匯率</b>
+    </a>
+    <a class="item" href="#">
+        <b>圖表</b>
+    </a>
+
+</div>
+
+<div class="pusher">
+    <div class="ui inverted segment">
+        <div class="ui inverted secondary menu">
+            <a class="active item" onclick="side()">
+                Menu <i class="sidebar icon"></i>
+            </a>
+            <b class="item">臺灣銀行牌告匯率 </b>
+        </div>
+    </div>
+
+    <div class="ui text container segment ">
+
+        <h1> 圖表</h1>
+        <div class="ui two column grid">
+            <div class="column">
+                <div class="ui red segment">
+                    <p>今日最高:<span id="maxValue">999</span></p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui blue segment">
+                    <p>今日最低:<span id="minValue">999</span></p>
+                </div>
+            </div>
+        </div>
+
+        <h2>highchart</h2>
+        <div id="container"></div>
+
+    </div>
+</div>
+<script>
+    var demo0 = 'http://192.168.8.22:9005/wonderful/chart/LFCSJSON/';
+    var demo = '/rateApp/index1_json/';
+
+    $.getJSON(demo, function (data) {
+        // Create the chart
+        console.log(data);
+        // create the chart
+        console.log(data.data.maxValue);
+        $("#maxValue").text(data.data.maxValue);
+        $("#minValue").text(data.data.minValue);
+
+        Highcharts.setOptions({global: {useUTC: false}});
+
+        Highcharts.stockChart('container', {
+            chart: {
+                type: 'line'
+            },
+
+            title: {
+                text: 'USD'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 30
+            },
+            yAxis: {
+                title: {
+                    text: '美金'
+                }
+            },
+            rangeSelector: {
+                buttons: [{
+                    type: 'day',
+                    count: 1,
+                    text: '1D'
+                }],
+                selected: 1,
+                inputEnabled: false
+            },
+
+            tooltip: {
+                formatter: function () {
+                    console.log(this.x);
+                    return '<b>' + 'USD' + '</b><br/>' +
+                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                        Highcharts.numberFormat(this.y, 2);
+
+
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            series: [{
+                name: 'USD',
+                data: data.data.result
+            }]
+        });
+    });
+
+
+</script>
+
+
+</body>
+</html>

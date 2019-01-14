@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <script src="/static/js/jquery-3.2.1.js"></script>
+    <script src="/static/js/semantic.js"></script>
+    <link href="/static/css/semantic.css" rel="stylesheet">
+
+
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+
+
+</head>
+
+<body>
+
+<div class="ui left sidebar inverted vertical  uncover menu">
+    <a class="item" href="/">
+        <b style="font-size: 18px">控制台</b>
+    </a>
+
+    <a class="item" href="/rateApp/index0/">
+        <b>臺灣銀行牌告匯率</b>
+    </a>
+    <a class="item" href="#">
+        <b>圖表</b>
+    </a>
+
+</div>
+
+<div class="pusher">
+    <div class="ui inverted segment">
+        <div class="ui inverted secondary menu">
+            <a class="active item" onclick="side()">
+                Menu <i class="sidebar icon"></i>
+            </a>
+
+                <a class="item" href="/rateApp/index0/"><b>臺灣銀行牌告匯率</b></a>
+                <span class="item">/</span>
+                <b class="item">{{ title }}</b>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<div class="ui text container segment ">
+
+    <h1> {{ today|date:'Y.m.d' }} {{ title }}</h1>
+    <div class="ui two column grid">
+        <div class="column">
+            <div class="ui red segment">
+                <p>今日最高:<span id="maxValue"></span></p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui blue segment">
+                <p>今日最低:<span id="minValue"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <h2></h2>
+    <div id="container"></div>
+
+</div>
+</div>
+<script>
+
+    //側邊選單
+    function side() {
+        $('.ui.sidebar').sidebar('toggle');
+    }
+
+    // 最高、最低
+    $("#maxValue").text({{  data.maxValue }});
+    $("#minValue").text({{  data.minValue }});
+
+    // Highchart
+    Highcharts.setOptions({global: {useUTC: false}});
+
+    Highcharts.stockChart('container', {
+        chart: {
+            type: 'line'
+        },
+
+        title: {
+            text: "{{ Currency }}"
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 30
+        },
+        yAxis: {
+            title: {
+                text: '美金'
+            }
+        },
+        rangeSelector: {
+            buttons: [{
+                type: 'day',
+                count: 1,
+                text: '1D'
+            }],
+            selected: 1,
+            inputEnabled: false
+        },
+
+        tooltip: {
+            formatter: function () {
+                //console.log(this.x);
+                return '<b>' + "{{ Currency }}" + '</b><br/>' +
+                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                    Highcharts.numberFormat(this.y, 2);
+
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        series: [{
+            name: "{{ Currency }}",
+
+            data:
+                {% if data.result == None %}
+                    null
+                {% else %}
+                    {{ data.result }}
+                {% endif %}
+
+
+            //data: null
+        }]
+    });
+
+
+</script>
+
+
+</body>
+</html>
